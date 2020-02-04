@@ -1,4 +1,4 @@
-## Design our own CPU and Operating system.
+## Design your own CPU and Operating system.
 İlk öncə simple CPU design formasından başlayacayıq. CPU-a aid əsas componentləri hazırlayacayıq MMU, ALU, Interrupt controller, ISA (Instruction Set Architecture) etc.
 
 - ALU (Arithmetic logic unit)
