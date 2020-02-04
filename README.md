@@ -2,7 +2,7 @@
 İlk öncə simple CPU design formasından başlayacayıq. CPU-a aid əsas componentləri hazırlayacayıq MMU, ALU, Interrupt controller, ISA (Instruction Set Architecture) etc.
 
 - ALU (Arithmetic logic unit)
- Arithmetic logic unit RTL level hazırlayacayıq mümkün qədər logic-gate (transistor-level) az toxunmağa çalışacam (deep level qabağdadır). Çünki burda əsas məqsəd ALU işləmə prinsipini anlamağdır.
+ ALU-nu burada RTL (Register-transfer level) level hazırlayacayıq mümkün qədər logic-gate (transistor-level) az toxunmağa çalışacam. Çünki burda əsas məqsəd ALU işləmə prinsipini anlamağdır.
  - MMU (Memory management unit)
   Memory management unit üzərində əgər mümkün olsa real mode və protection mode hazırlayıb göstərəcəm (x86 model)
   Məsələn x86 virtual adres müraciətində adres translate necə edir daha sonra TLB inteqrasiyası. Əslində çalışacam daha çox x86 modelinə oxşadaq ancaq digər arxitekturalardaki işləmə prinsiplərinidə istifadə edə bilərik.
