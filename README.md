@@ -33,7 +33,7 @@ Daha sonra əgər mümkün olarsa silicon level reversing məsələsinidə baxa 
 
 #### Haswell (micro)architecture:
 https://www.realworldtech.com/wp-content/uploads/2012/11/haswell-5.png
-![Sandybridge](https://raw.githubusercontent.com/goupaz/lowlevel/master/resources/sandybridge.png)
+![Sandybridge](https://raw.githubusercontent.com/goupaz/lowlevel/master/resources/sandybridge.jpg)
 
 
 Ardı var...
