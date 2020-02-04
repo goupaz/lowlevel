@@ -22,16 +22,19 @@
 
  Daha sonra isə modern İntel prosessorunu reverse edib bəzi komponentləri yazmağa çalışacayıq (Prefetcher, Caching etc.). İntelin i8080A prosessorunun silicon die modeli artıq reverse edilib #8. Həmçini gate level modelidə çıxarılıb:
 
-[Picture]
+![Transistor level](https://raw.githubusercontent.com/goupaz/lowlevel/master/resources/transistor.png)
 
 Əgər mümkün olsa transistor connectivity ilə bunları Verilog-a yaza bilərik.
 
 
 Daha sonra əgər mümkün olarsa silicon level reversing məsələsinidə baxa bilərik. Silicon Die üzərindən bəzi prosessorları (CMOS, TTL, RTL) necə reversə edə bilərik:
-[Picture]
+
+![MOSFET](https://raw.githubusercontent.com/goupaz/lowlevel/master/resources/mosfet.png)
 
 #### Haswell (micro)architecture:
 https://www.realworldtech.com/wp-content/uploads/2012/11/haswell-5.png
+![Sandybridge](https://raw.githubusercontent.com/goupaz/lowlevel/master/resources/sandybridge.png)
+
 
 Ardı var...
 
