@@ -1,6 +1,12 @@
 ## Design your own CPU and Operating system.
 İlk öncə simple CPU design formasından başlayacayıq. CPU-a aid əsas componentləri hazırlayacayıq MMU, ALU, Interrupt controller, ISA (Instruction Set Architecture) etc.
 
+
+## Video series
+| Title        | Session        |
+| ------------- |:-------------:|
+| CPU Design (Session 1)      | [Link](https://www.youtube.com/watch?v=EAGMvlul_28&feature=youtu.be) |
+
 - ALU (Arithmetic logic unit)
  ALU-nu burada RTL (Register-transfer level) level hazırlayacayıq mümkün qədər logic-gate (transistor-level) az toxunmağa çalışacam. Çünki burda əsas məqsəd ALU işləmə prinsipini anlamağdır.
  - MMU (Memory management unit)
