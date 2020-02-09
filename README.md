@@ -54,3 +54,7 @@ Ardı var...
 7. Compiler Principles and Design in Verilog HDL (2015) - Book
 8. https://github.com/1801BM1/vm80a/
 9. https://patents.google.com/patent/US5367660A/en
+10. https://en.wikipedia.org/wiki/Logic_synthesis
+11. https://en.wikipedia.org/wiki/Lookup_table
+12. https://riscv.org/
+13. https://www.amazon.com/Computer-Organization-Design-RISC-V-Architecture/dp/0128122757
