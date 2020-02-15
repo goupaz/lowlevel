@@ -37,19 +37,23 @@ Daha sonra əgər mümkün olarsa silicon level reversing məsələsinidə baxa 
 
 ![MOSFET](https://raw.githubusercontent.com/goupaz/lowlevel/master/resources/mosfet.png)
 
-#### Haswell (micro)architecture:
+#### Haswell/Sandybridge (micro)architecture:
 https://www.realworldtech.com/wp-content/uploads/2012/11/haswell-5.png
-![Sandybridge](https://raw.githubusercontent.com/goupaz/lowlevel/master/resources/sandybridge.jpg)
 
+<img src="https://raw.githubusercontent.com/goupaz/lowlevel/master/resources/sandybridge.jpg" alt="Sandybridge" style="max-width:100%;" width="450" height="350">
 
 Ardı var...
 
 
 ## Other low-level topics
 
+<p align="center">
+<img src="https://raw.githubusercontent.com/goupaz/lowlevel/master/resources/rick.jpg" alt="Sandybridge" style="max-width:100%;" width="300" height="300"></p>
+
+
 Bu seriyada həmçinin fərqli Hypervisor, Network development (BGP, OSPF, VRRP etc.), Microarchitectural algorithm analysis mövzularına toxunacam;
 
-
+ 
 #### Video series (CPU Design)
 | Title        | Session        |
 | ------------- |:-------------:|
