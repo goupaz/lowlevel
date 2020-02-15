@@ -2,7 +2,7 @@
 İlk öncə simple CPU design formasından başlayacayıq. CPU-a aid əsas componentləri hazırlayacayıq MMU, ALU, Interrupt controller, ISA (Instruction Set Architecture) etc.
 
 
-## Video series (CPU Design)
+#### Video series (CPU Design)
 | Title        | Session        |
 | ------------- |:-------------:|
 | CPU Design (Session 1)      | [Link](https://www.youtube.com/watch?v=EAGMvlul_28&feature=youtu.be) |
@@ -45,10 +45,12 @@ https://www.realworldtech.com/wp-content/uploads/2012/11/haswell-5.png
 Ardı var...
 
 
+## Other low-level topics
+
 Bu seriyada həmçinin fərqli Hypervisor, Network development (BGP, OSPF, VRRP etc.), Microarchitectural algorithm analysis mövzularına toxunacam;
 
 
-## Video series (CPU Design)
+#### Video series (CPU Design)
 | Title        | Session        |
 | ------------- |:-------------:|
 | Hypervisor/Containerization architecture/development (Docker, Kubernetes, Firecracker etc.)      | [Link](https://www.youtube.com/watch?v=aOS0VmQjfiQ) |
