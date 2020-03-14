@@ -44,7 +44,8 @@ Hər hansı bir CFG üzərində iterativ olaraq liveness analizini riyazi aparma
 
 <img src="http://staff.cs.upt.ro/~chirila/teaching/upt/c51-pt/aamcij/7113/images/figu206_1.jpg">
 Burdaki out[n] seti bizim successor nodunun in setinin dəyərlərini saxlayır (backward). in[n] seti isə node-un define, use və out setindəki məlumatlara uyğun olaraq hesablama aparır.
-operation for node 3
+operation for node 3:
+
 ```
 use[3] = {i, k}
 out[3] = {i,n}
