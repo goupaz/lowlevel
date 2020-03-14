@@ -76,13 +76,8 @@ Liveness analysis üçün pseudo kodu yerləşdirirəm:
 References:
 
 https://www.youtube.com/watch?v=VgwFvLc9xLM
-
 https://www.inf.ed.ac.uk/teaching/courses/copt/lecture-3.pdf
-
 https://www.cs.colostate.edu/~mstrout/CS553Fall06/slides/lecture09-dataflow.pdf
-
 https://suif.stanford.edu/~courses/cs243/lectures/l2.pdf
-
 https://cseweb.ucsd.edu/classes/fa03/cse231/lec3seq.pdf
-
 https://proglang.informatik.uni-freiburg.de/teaching/compilerbau/2016ws/10-liveness.pdf
