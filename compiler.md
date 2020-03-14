@@ -32,7 +32,7 @@ Predecessor node of a node is called its parent.
 
 Liveness analysis
 
-Variable x p point-də live olur o halda k x-in dəyəri digər path-larda redefine olmadan istifadə edilir. (A variable is live at some point if it holds a value that may be needed in the future, or equivalently if its value may be read before the next time the variable is written to). Bu mexanizm ilə biz dead variable-ları təyin edə bilərik. Məsələn:
+Variable x p point-də live olur o halda ki x-in dəyəri digər path-larda redefine olunmadan istifadə edilir. (A variable is live at some point if it holds a value that may be needed in the future, or equivalently if its value may be read before the next time the variable is written to). Bu mexanizm ilə biz dead variable-ları təyin edə bilərik. Məsələn:
 ```
 main:
 x = 0xdeadbeef
