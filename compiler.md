@@ -54,5 +54,16 @@ in[3] = (use[3]) U (out[3] - def[3])
 in[3] = {i, k, n}
 ```
 
+Liveness analysis üçün pseudo kodu yerləşdirirəm:
+<img width="300" height="200" src="https://raw.githubusercontent.com/goupaz/lowlevel/master/resources/liveness.png">
 
 Register allocation can be used to assign a large number of variables to registers. These variables can be transferred to unlimited registers of IR, but, this process will not be possible with CPU registers. Because, IR format has an unbounded number of temporary registers, otherwise, CPU has a bounded number of physical registers (rax, rdi, rbx, rcx etc.). So, register allocation is an NP-complete problem. Can we allocate all these n temporaries to k registers? There are a few techniques based on graph coloring. Rust doesn't involve a register allocation stage, this process will be done by LLVM.
+
+
+References:
+https://www.youtube.com/watch?v=VgwFvLc9xLM
+https://www.inf.ed.ac.uk/teaching/courses/copt/lecture-3.pdf
+https://www.cs.colostate.edu/~mstrout/CS553Fall06/slides/lecture09-dataflow.pdf
+https://suif.stanford.edu/~courses/cs243/lectures/l2.pdf
+https://cseweb.ucsd.edu/classes/fa03/cse231/lec3seq.pdf
+https://proglang.informatik.uni-freiburg.de/teaching/compilerbau/2016ws/10-liveness.pdf
