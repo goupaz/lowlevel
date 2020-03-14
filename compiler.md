@@ -1,6 +1,10 @@
 ### Resarching about Rust architecture.
 We're going to start develop and research compilers (Rust, GO, C). Compilers mostly have a few important phases such as Lexer analysis, Syntax analysis, Semantic analysis, IR (Intermediate code/representation generation), Code optimization and generation. We firstly take a look at phases of rustc.  
 
+
+Register allocation can be used to assign a large number of variables to registers. These variables can be transferred to unlimited registers of IR, but, this process will not be possible with CPU registers. Because, IR format has an unbounded number of temporary registers, otherwise, CPU has a bounded number of physical registers (rax, rdi, rbx, rcx etc.). So, register allocation is an NP-complete problem. Can we allocate all these n temporaries to k registers? There are a few techniques based on graph coloring. Rust doesn't involve a register allocation stage, this process will be done by LLVM.
+
+
 Data-flow analysis
 Compiler design-da istifadə edilən Liveness analysis, dead code elimination, reachability kimi mexanizmlər data-flow analiz metodikasi üzərindən tətbiq edilir. Vulnerability researching ilə məşğul olduğum zamnda akademik metodlar ilə data-flow analizini tətbiq edirdim. Data-flow analiz zamanı biz proqram təminatının control-flow graph forması üzərində analizimizi aparırıq. CFG 2 əsas hissədən ibarətdir flow path (edge) və node. CFG üzərində predecessor və successor node-lar var bu node-lar isə bir node-a bağlı child və parent node-ları bildirir. 
 
@@ -27,6 +31,7 @@ Predecessor node of a node is called its parent.
 ```
 
 Liveness analysis
+
 Variable x p point-də live olur o halda k x-in dəyəri digər path-larda redefine olmadan istifadə edilir. (A variable is live at some point if it holds a value that may be needed in the future, or equivalently if its value may be read before the next time the variable is written to). Bu mexanizm ilə biz dead variable-ları təyin edə bilərik. Məsələn:
 ```
 main:
@@ -46,7 +51,9 @@ DEF isə müyyən basic block/node üzərindəki define edilmiş variable-ları 
 
 Hər hansı bir CFG üzərində iterativ olaraq liveness analizini riyazi aparmaq istədikdə isə aşağıdaki equationı istifadə edə bilərik.
 
-<img src="http://staff.cs.upt.ro/~chirila/teaching/upt/c51-pt/aamcij/7113/images/figu206_1.jpg">
+*Equationdaki bütün əməliyyatlar sadə set theory operatorları ilə aparılır*
+
+<img src="https://raw.githubusercontent.com/goupaz/lowlevel/master/resources/equ.jpg">
 
 Burdaki out[n] seti bizim successor nodunun in setinin dəyərlərini saxlayır (backward). in[n] seti isə node-un define, use və out setindəki məlumatlara uyğun olaraq hesablama aparır.
 operation for node 3:
@@ -63,7 +70,7 @@ Liveness analysis üçün pseudo kodu yerləşdirirəm:
 
 <img width="300" height="200" src="https://raw.githubusercontent.com/goupaz/lowlevel/master/resources/liveness.png">
 
-Register allocation can be used to assign a large number of variables to registers. These variables can be transferred to unlimited registers of IR, but, this process will not be possible with CPU registers. Because, IR format has an unbounded number of temporary registers, otherwise, CPU has a bounded number of physical registers (rax, rdi, rbx, rcx etc.). So, register allocation is an NP-complete problem. Can we allocate all these n temporaries to k registers? There are a few techniques based on graph coloring. Rust doesn't involve a register allocation stage, this process will be done by LLVM.
+
 
 
 References:
