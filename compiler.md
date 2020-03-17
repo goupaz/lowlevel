@@ -72,6 +72,24 @@ Liveness analysis üçün pseudo kodu yerləşdirirəm:
 
 
 
+#### Rust operations
+Rust has few stage until final stage such as HIR, LLVM IR, Machine code generation. Modern Rust has also MIR between the existing HIR and LLVM IR. MIR generates LLVM IR after parsing, type checking, borrow checking and optimization stage. e.g:
+
+rust source code:
+```
+fn foo() -> i32{
+    let a = 0x55;
+    let a = a + 0x4;
+    return a;
+}
+```
+Rust uses LLVM based intrinsic function for fast arithmetic overflow checking. Therefore, MIR will generate to call llvm.sadd.with.overflow.* function.
+```
+[DEBUG rustc_codegen_llvm::builder] call (i32 ()*:
+      %1 = call { i32, i1 } @llvm.sadd.with.overflow.i32(i32 85, i32 4)
+```
+
+<img width="400" height="400" src="https://blog.rust-lang.org/images/2016-04-MIR/flow.svg">
 
 References:
 
