@@ -73,8 +73,7 @@ Liveness analysis üçün pseudo kodu yerləşdirirəm:
 
 
 #### Rust operations
-Rust has few stage until final stage such as HIR, LLVM IR, Machine code generation. Modern Rust has also MIR between the existing HIR and LLVM IR. MIR generates LLVM IR after parsing, type checking, borrow checking and optimization stage. e.g:
-
+Rust has few stages until the final stage such as HIR, LLVM IR, Machine code generation. Modern Rust has also MIR between the existing HIR and LLVM IR. MIR generates LLVM IR after parsing, type checking, borrow checking and optimization stage. e.g:
 rust source code:
 ```
 fn foo() -> i32{
