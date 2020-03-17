@@ -75,9 +75,10 @@ Liveness analysis üçün pseudo kodu yerləşdirirəm:
 
 References:
 
-https://www.youtube.com/watch?v=VgwFvLc9xLM
-https://www.inf.ed.ac.uk/teaching/courses/copt/lecture-3.pdf
-https://www.cs.colostate.edu/~mstrout/CS553Fall06/slides/lecture09-dataflow.pdf
-https://suif.stanford.edu/~courses/cs243/lectures/l2.pdf
-https://cseweb.ucsd.edu/classes/fa03/cse231/lec3seq.pdf
-https://proglang.informatik.uni-freiburg.de/teaching/compilerbau/2016ws/10-liveness.pdf
+
+1. [https://www.youtube.com/watch?v=VgwFvLc9xLM](https://www.youtube.com/watch?v=VgwFvLc9xLM)
+2. [https://www.inf.ed.ac.uk/teaching/courses/copt/lecture-3.pdf](https://www.inf.ed.ac.uk/teaching/courses/copt/lecture-3.pdf)
+3. [https://www.cs.colostate.edu/~mstrout/CS553Fall06/slides/lecture09-dataflow.pdf](https://www.cs.colostate.edu/~mstrout/CS553Fall06/slides/lecture09-dataflow.pdf)
+4. [https://suif.stanford.edu/~courses/cs243/lectures/l2.pdf](https://suif.stanford.edu/~courses/cs243/lectures/l2.pdf)
+5. [https://cseweb.ucsd.edu/classes/fa03/cse231/lec3seq.pdf](https://cseweb.ucsd.edu/classes/fa03/cse231/lec3seq.pdf)
+6. [https://proglang.informatik.uni-freiburg.de/teaching/compilerbau/2016ws/10-liveness.pdf](https://proglang.informatik.uni-freiburg.de/teaching/compilerbau/2016ws/10-liveness.pdf)
