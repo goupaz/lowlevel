@@ -153,7 +153,7 @@ bounds_check funksiyasında isə Lt operatoru əlavə edilir (Less than) burada 
 
 CFG:
 
-<img width="792" height="278" src="https://raw.githubusercontent.com/goupaz/lowlevel/master/resources/boundcheck.png">
+<img width="450" height="150" src="https://raw.githubusercontent.com/goupaz/lowlevel/master/resources/boundcheck.png">
 
 MIR output:
 ```
