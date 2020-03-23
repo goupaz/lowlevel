@@ -93,7 +93,7 @@ Rust uses LLVM based intrinsic function for fast arithmetic overflow checking. T
 
 
 ### Rust bound checking
-Rust bound check əməliyyatı MİR tərəfindən aparılır yəni syntax parse edildiyi zaman əgər biz index operatoru istifadə etmişiksə MIR əlavə olaraq bound_check funksiyasını əlavə edir. MIR source kodu textual formaya yox Control-flow-graph formasında generate edir. Burada birçox safety-checking prosesləri generated CFG üzərində baş verir. 
+Rust bound check əməliyyatı MIR tərəfindən aparılır yəni syntax parse edildiyi zaman əgər biz index operatoru istifadə etmişiksə MIR əlavə olaraq bound_check funksiyasını əlavə edir. MIR source kodu textual formaya yox Control-flow-graph formasında generate edir. Burada birçox safety-checking prosesləri generated CFG üzərində baş verir. 
 
 
 safe code
@@ -109,7 +109,7 @@ fn main() {
 }
 
 ```
-Məsələn biz kod üzərində hər hansı bir index əməliyyatı istifadə etdikdə MİR onun üçün CFG-a bound check əməliyyatı əlavə edir.
+Məsələn biz kod üzərində hər hansı bir index əməliyyatı istifadə etdikdə MIR onun üçün CFG-a bound check əməliyyatı əlavə edir.
 
 ./src/librustc_mir_build/build/expr/as_place.rs
 ```
@@ -151,7 +151,42 @@ lower_index_expression funksiyası daha sonra bounds_check funksiyasını çağ�
 ```
 bounds_check funksiyasında isə Lt operatoru əlavə edilir (Less than) burada isə tələb olunan offset-in ümumi uzunluğdan kiçik olub olmaması yoxlanılır.
 
+CFG:
+
 <img width="792" height="278" src="https://raw.githubusercontent.com/goupaz/lowlevel/master/resources/boundcheck.png">
+
+MIR output:
+```
+
+
+    bb0: {
+        StorageLive(_1);                 // bb0[0]: scope 0 at src/main.rs:4:9: 4:10
+        _1 = [const 1i32, const 2i32, const 3i32, const 4i32, const 5i32]; // bb0[1]: scope 0 at src/main.rs:4:13: 4:28
+                                         // ty::Const
+                                         // + literal: Const { ty: i32, val: Value(Scalar(0x00000005)) }
+        StorageLive(_2);                 // bb0[2]: scope 1 at src/main.rs:5:9: 5:14
+        _2 = const 10usize;              // bb0[3]: scope 1 at src/main.rs:5:17: 5:19
+                                         // ty::Const
+                                         // + ty: usize
+                                         // + val: Value(Scalar(0x000000000000000a))
+                                         // mir::Constant
+                                         // + span: src/main.rs:5:17: 5:19
+                                         // + literal: Const { ty: usize, val: Value(Scalar(0x000000000000000a)) }
+        StorageLive(_3);                 // bb0[4]: scope 2 at src/main.rs:7:9: 7:16
+        StorageLive(_4);                 // bb0[5]: scope 2 at src/main.rs:7:21: 7:26
+        _4 = _2;                         // bb0[6]: scope 2 at src/main.rs:7:21: 7:26
+        _5 = const 5usize;               // bb0[7]: scope 2 at src/main.rs:7:19: 7:27
+                                         // ty::Const
+                                         // + ty: usize
+                                         // + val: Value(Scalar(0x0000000000000005))
+                                         // mir::Constant
+                                         // + span: src/main.rs:7:19: 7:27
+                                         // + literal: Const { ty: usize, val: Value(Scalar(0x0000000000000005)) }
+        _6 = Lt(_4, _5);                 // bb0[8]: scope 2 at src/main.rs:7:19: 7:27
+        assert(move _6, "index out of bounds: the len is move _5 but the index is _4") -> bb1; // bb0[9]: scope 2 at src/main.rs:7:19: 7:27
+    }
+    
+```
 
 Daha sonra bunun LLVM IR və ASM outputlarına baxaq.
 
@@ -202,38 +237,6 @@ _ZN10playground5main17he2ed904ee11c0235E: # @_ZN10playground5main17he2ed904ee11c
 
 Burda LLVM optimizasiya üçün offset dəyəri pre-defined olduğun üçün optimal instruction generasiya edib. LLVM həmçinin backend optimizasiyasında bound check elimination-da tətbiq edir.
 
-MİR output
-```
-
-
-    bb0: {
-        StorageLive(_1);                 // bb0[0]: scope 0 at src/main.rs:4:9: 4:10
-        _1 = [const 1i32, const 2i32, const 3i32, const 4i32, const 5i32]; // bb0[1]: scope 0 at src/main.rs:4:13: 4:28
-                                         // ty::Const
-                                         // + literal: Const { ty: i32, val: Value(Scalar(0x00000005)) }
-        StorageLive(_2);                 // bb0[2]: scope 1 at src/main.rs:5:9: 5:14
-        _2 = const 10usize;              // bb0[3]: scope 1 at src/main.rs:5:17: 5:19
-                                         // ty::Const
-                                         // + ty: usize
-                                         // + val: Value(Scalar(0x000000000000000a))
-                                         // mir::Constant
-                                         // + span: src/main.rs:5:17: 5:19
-                                         // + literal: Const { ty: usize, val: Value(Scalar(0x000000000000000a)) }
-        StorageLive(_3);                 // bb0[4]: scope 2 at src/main.rs:7:9: 7:16
-        StorageLive(_4);                 // bb0[5]: scope 2 at src/main.rs:7:21: 7:26
-        _4 = _2;                         // bb0[6]: scope 2 at src/main.rs:7:21: 7:26
-        _5 = const 5usize;               // bb0[7]: scope 2 at src/main.rs:7:19: 7:27
-                                         // ty::Const
-                                         // + ty: usize
-                                         // + val: Value(Scalar(0x0000000000000005))
-                                         // mir::Constant
-                                         // + span: src/main.rs:7:19: 7:27
-                                         // + literal: Const { ty: usize, val: Value(Scalar(0x0000000000000005)) }
-        _6 = Lt(_4, _5);                 // bb0[8]: scope 2 at src/main.rs:7:19: 7:27
-        assert(move _6, "index out of bounds: the len is move _5 but the index is _4") -> bb1; // bb0[9]: scope 2 at src/main.rs:7:19: 7:27
-    }
-    
-```
 References:
 
 
