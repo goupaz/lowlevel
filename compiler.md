@@ -238,10 +238,6 @@ _ZN10playground5main17he2ed904ee11c0235E: # @_ZN10playground5main17he2ed904ee11c
 
 Burda LLVM optimizasiya üçün offset dəyəri pre-defined olduğun üçün optimal instruction generasiya edib. LLVM həmçinin backend optimizasiyasında bound check elimination-da tətbiq edir.
 
-
-Btw:
-Rust həmçinin data-flow analysis əməliyyatlarını bu CFG üzərindən apara bilir. 
-
 References:
 
 
