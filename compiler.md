@@ -90,6 +90,150 @@ Rust uses LLVM based intrinsic function for fast arithmetic overflow checking. T
 
 <img width="400" height="400" src="https://blog.rust-lang.org/images/2016-04-MIR/flow.svg">
 
+
+
+### Rust bound checking
+Rust bound check əməliyyatı MİR tərəfindən aparılır yəni syntax parse edildiyi zaman əgər biz index operatoru istifadə etmişiksə MIR əlavə olaraq bound_check funksiyasını əlavə edir. MIR source kodu textual formaya yox Control-flow-graph formasında generate edir. Burada birçox safety-checking prosesləri generated CFG üzərində baş verir. 
+
+
+safe code
+
+```
+#[allow(unused_variables)]
+#[allow(const_err)]
+fn main() {
+    let a = [1, 2, 3];    
+    let index = 344;
+    let element = a[index];
+    println!("The value of element is: {}", element);
+}
+
+```
+Məsələn biz kod üzərində hər hansı bir index əməliyyatı istifadə etdikdə MİR onun üçün CFG-a bound check əməliyyatı əlavə edir.
+
+./src/librustc_mir_build/build/expr/as_place.rs
+```
+153             ExprKind::Index { lhs, index } => this.lower_index_expression(
+154                 block,
+155                 lhs,
+156                 index,
+157                 mutability,
+158                 fake_borrow_temps,
+159                 expr.temp_lifetime,
+160                 expr_span,
+161                 source_info,
+162             ),
+```
+
+lower_index_expression funksiyası daha sonra bounds_check funksiyasını çağıraraq uyğun operatorları CFG-a əlavə edir.
+
+./src/librustc_mir_build/build/expr/as_place.rs: lower_index_expression function
+```
+306         block = self.bounds_check(
+307             block,
+308             base_place.clone().into_place(self.hir.tcx()),
+309             idx,
+310             expr_span,
+311             source_info,
+312         );
+```
+./src/librustc_mir_build/build/expr/as_place.rs: bounds_check function
+```
+344         self.cfg.push_assign(block, source_info, &len, Rvalue::Len(slice));
+345         // lt = idx < len
+346         self.cfg.push_assign(
+347             block,
+348             source_info,
+349             &lt,
+350             Rvalue::BinaryOp(BinOp::Lt, Operand::Copy(Place::from(index)), Operand::Copy(len)),
+351         );
+352         let msg = BoundsCheck { len: Operand::Move(len), index: Operand::Copy(Place::from(index)) };
+```
+bounds_check funksiyasında isə Lt operatoru əlavə edilir (Less than) burada isə tələb olunan offset-in ümumi uzunluğdan kiçik olub olmaması yoxlanılır.
+
+<img width="792" height="278" src="https://raw.githubusercontent.com/goupaz/lowlevel/master/resources/boundcheck.png">
+
+Daha sonra bunun LLVM IR və ASM outputlarına baxaq.
+
+```
+define internal void @_ZN10playground4main17he2ed904ee11c0235E() unnamed_addr #0 !dbg !285 {
+start:
+  %arg0 = alloca i32*, align 8
+  %_16 = alloca i32*, align 8
+  %_15 = alloca [1 x { i8*, i8* }], align 8
+  %_8 = alloca %"core::fmt::Arguments", align 8
+  %element = alloca i32, align 4
+  %index = alloca i64, align 8
+  %a = alloca [5 x i32], align 4
+  call void @llvm.dbg.declare(metadata [5 x i32]* %a, metadata !287, metadata !DIExpression()), !dbg !292
+  call void @llvm.dbg.declare(metadata i64* %index, metadata !293, metadata !DIExpression()), !dbg !295
+  call void @llvm.dbg.declare(metadata i32* %element, metadata !296, metadata !DIExpression()), !dbg !298
+  call void @llvm.dbg.declare(metadata i32** %arg0, metadata !299, metadata !DIExpression()), !dbg !303
+  %0 = bitcast [5 x i32]* %a to i32*, !dbg !304
+  store i32 1, i32* %0, align 4, !dbg !304
+  %1 = getelementptr inbounds [5 x i32], [5 x i32]* %a, i32 0, i32 1, !dbg !304
+  store i32 2, i32* %1, align 4, !dbg !304
+  %2 = getelementptr inbounds [5 x i32], [5 x i32]* %a, i32 0, i32 2, !dbg !304
+  store i32 3, i32* %2, align 4, !dbg !304
+  %3 = getelementptr inbounds [5 x i32], [5 x i32]* %a, i32 0, i32 3, !dbg !304
+  store i32 4, i32* %3, align 4, !dbg !304
+  %4 = getelementptr inbounds [5 x i32], [5 x i32]* %a, i32 0, i32 4, !dbg !304
+  store i32 5, i32* %4, align 4, !dbg !304
+  store i64 10, i64* %index, align 8, !dbg !305
+  %_4 = load i64, i64* %index, align 8, !dbg !306
+  %_6 = icmp ult i64 %_4, 5, !dbg !307
+  %5 = call i1 @llvm.expect.i1(i1 %_6, i1 true), !dbg !307
+  br i1 %5, label %bb1, label %panic, !dbg !307
+```
+
+
+
+```
+_ZN10playground5main17he2ed904ee11c0235E: # @_ZN10playground5main17he2ed904ee11c0235E
+        mov     eax, dword ptr [rsp - 4]
+        mov     dword ptr [rsp - 28], eax
+        mov     qword ptr [rsp - 24], 10
+        mov     al, 1
+        test    al, al
+        jne     .LBB0_2
+        mov     eax, 1
+        ret
+```
+
+Burda LLVM optimizasiya üçün offset dəyəri pre-defined olduğun üçün optimal instruction generasiya edib. LLVM həmçinin backend optimizasiyasında bound check elimination-da tətbiq edir.
+
+MİR output
+```
+
+
+    bb0: {
+        StorageLive(_1);                 // bb0[0]: scope 0 at src/main.rs:4:9: 4:10
+        _1 = [const 1i32, const 2i32, const 3i32, const 4i32, const 5i32]; // bb0[1]: scope 0 at src/main.rs:4:13: 4:28
+                                         // ty::Const
+                                         // + literal: Const { ty: i32, val: Value(Scalar(0x00000005)) }
+        StorageLive(_2);                 // bb0[2]: scope 1 at src/main.rs:5:9: 5:14
+        _2 = const 10usize;              // bb0[3]: scope 1 at src/main.rs:5:17: 5:19
+                                         // ty::Const
+                                         // + ty: usize
+                                         // + val: Value(Scalar(0x000000000000000a))
+                                         // mir::Constant
+                                         // + span: src/main.rs:5:17: 5:19
+                                         // + literal: Const { ty: usize, val: Value(Scalar(0x000000000000000a)) }
+        StorageLive(_3);                 // bb0[4]: scope 2 at src/main.rs:7:9: 7:16
+        StorageLive(_4);                 // bb0[5]: scope 2 at src/main.rs:7:21: 7:26
+        _4 = _2;                         // bb0[6]: scope 2 at src/main.rs:7:21: 7:26
+        _5 = const 5usize;               // bb0[7]: scope 2 at src/main.rs:7:19: 7:27
+                                         // ty::Const
+                                         // + ty: usize
+                                         // + val: Value(Scalar(0x0000000000000005))
+                                         // mir::Constant
+                                         // + span: src/main.rs:7:19: 7:27
+                                         // + literal: Const { ty: usize, val: Value(Scalar(0x0000000000000005)) }
+        _6 = Lt(_4, _5);                 // bb0[8]: scope 2 at src/main.rs:7:19: 7:27
+        assert(move _6, "index out of bounds: the len is move _5 but the index is _4") -> bb1; // bb0[9]: scope 2 at src/main.rs:7:19: 7:27
+    }
+    
+```
 References:
 
 
