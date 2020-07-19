@@ -2,7 +2,7 @@
 İlk öncə simple CPU design formasından başlayacayıq. CPU-a aid əsas componentləri hazırlayacayıq MMU, ALU, Interrupt controller, ISA (Instruction Set Architecture) etc.
 
 
-Contact mail: drmint80@gmail.com (Emin Ghuliev)
+Maintainer: drmint80@gmail.com (Emin Ghuliev)
 
 #### Video series (CPU Design)
 | Title        | Session        |
