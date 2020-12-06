@@ -1,13 +1,21 @@
 ### Livestream Shusha-Lang.
 Host: Shako
 Speaker: Emin Ghuliev
+
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/4qStWyY4BmE/0.jpg)](https://www.youtube.com/watch?v=4qStWyY4BmE)
+
 livestream topics:
-  Microarchitectural implementations (CPU port contention/pressure, Reorder-buffer, RAT-Register allocation table etc.) and instruction decoding process (DSB/μop cache)
-  Store-to-load forwarding in microarchitecture and how compilers do optimization with this mechanism.
-  Persistent data structures and using of COW (Copy-on-write) on demanding to create new field.
-  Async/resume/suspend implementation and concept of goroutines. Also, how we can implement them with psuedocode. 
-  Recursion and tail call optimization.
+
+ - Microarchitectural implementations (CPU port contention/pressure,
+   Reorder-buffer, RAT-Register allocation table etc.) and instruction
+   decoding process (DSB/μop cache)
+ - Store-to-load forwarding in microarchitecture and how compilers do
+   optimization with this mechanism.
+ - Persistent data structures and using of COW (Copy-on-write) on
+   demanding to create new field.
+ - Async/resume/suspend implementation and concept of goroutines. Also,
+   how we can implement them with psuedocode.
+ - Recursion and tail call optimization.
   
 
 ### Resarching about Rust architecture.
